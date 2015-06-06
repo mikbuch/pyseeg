@@ -1,2 +1,2 @@
-# pyseeg
-EEG python, library for simple eeg analysis and plotting
+# beeg
+EEG python, library for basic eeg analysis and plotting
