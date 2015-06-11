@@ -1,0 +1,31 @@
+clear;
+b = [ 0.005129268366104263, 0, -0.01025853673220853, 0, 0.005129268366104263 ];
+a = [ 1, -3.678895469764040, 5.179700413522124, -3.305801890016702, 0.8079495914209149 ];
+               
+prev_x = [0 0 0 0 0];
+prev_y = [0 0 0 0 0];
+data=rand(1,2500);
+               
+ff=250;
+ for i=1:1:ff      
+    for j = 5:-1:2
+        prev_x(1, j) = prev_x(1, j - 1);
+        prev_y(1, j) = prev_y(1, j - 1);
+    end
+    prev_x(1, 1) = data(1,i);  
+        wynik = 0;
+        for j = 1:1:5
+        wynik = wynik + b(1,j) * prev_x(1, j);
+        if j > 1
+            wynik = wynik - a(1,j) * prev_y(1, j);
+        end
+    end
+    prev_y(1, 1) = wynik;
+    dataf(1,i)=wynik;
+end
+               
+subplot(2,1,1)
+plot(dataf)
+dataff=filter(filtrFS,data);
+subplot(2,1,2)
+plot(dataff(1,1:ff));

@@ -42,7 +42,7 @@ alpha_filter = iir(filter_order,'bp','butt', [alpha_lower/Fs, alpha_upper/Fs],[]
 alpha_data = EEGdata(alpha_electrode,:);
 alphaF = flts(alpha_data,alpha_filter);
 alpha_x_sec = alphaF(1,second_begin*Fs:1:second_end*Fs);
-alpha_Y = abs(2*fft(alphaF(1,1+second_begin*Fs:second_end*Fs))./length(alphaF(1,1+second_begin*Fs:second_end*Fs))); //FFT signal second_begin to second_end second
+alpha_Y = abs(2*fft(alphaF(1,1+second_begin*Fs:second_end*Fs))/length(alphaF(1,1+second_begin*Fs:second_end*Fs))); //FFT signal second_begin to second_end second
 alpha_f = 1/2:1/2:128; // frequency axis creation
 
 
@@ -61,9 +61,6 @@ f.figure_size=[plots_width,plots_heigth]
 a=gca();  
 a.font_size=5;
 title("Alpha waves time domain","fontsize",6);
-xlabel("seconds (s)","fontsize",5);
-ylabel("signal amplitude (µV)","fontsize",5);
-//subplot(521);
 plot(t,alpha_x_sec(1,:))
 
 // alpha_freq plot
@@ -73,13 +70,10 @@ f.figure_size=[plots_width,plots_heigth]
 a=gca();  
 a.font_size=5;
 title("Alpha waves frequency domain","fontsize",6);
-xlabel("frequency (Hz)","fontsize",5);
-ylabel("signal amplitude (µV)","fontsize",5);
-//subplot(522);
 plot(alpha_f(1,1:256),alpha_Y(1,1:256));
 
 // alpha_raw plot
-plot(EEGdata(alpha_electrode,1+second_begin*256:second_end*256)); //raw signal alpha
+// plot(EEGdata(alpha_electrode,1+second_begin*256:second_end*256)); //raw signal alpha
 
 ///////////////
 // exporting //
