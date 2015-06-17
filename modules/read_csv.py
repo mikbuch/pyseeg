@@ -7,8 +7,9 @@
 
     arguments:
         csv_file - read csv file name
-        coma - if True replaces all the comas with dots in the particular cells
-        header - specify how many lines (from the begining) are to be removed
+        coma - if True replaces all the comas with dots (in all cells)
+        header - specify how many lines (from the begining) are removed
+        transpose - if True transposes the data (look transposition)
     # # #
 
     example use:
@@ -21,6 +22,7 @@
 '''
 
 import csv
+import numpy as np
 
 
 def read(
@@ -29,6 +31,7 @@ def read(
         delimiter=',',
         header=None,
         mode='rb',
+        transpose=False,
         quotechar='|'
         ):
 
@@ -53,6 +56,8 @@ def read(
             )
     if header is not None:
         data = data[header:]
+    if transpose:
+        data = transposition(data)
     return data
 
 
@@ -97,3 +102,20 @@ def advanced(
                 line = [i.replace(',', '.') for i in line]
             data.append(line)
     return data
+
+
+'''
+    transposition - change columns with rows
+    e.g.
+        list =
+        [1, 2, 3
+         4, 5, 6
+         7, 8, 9]
+        list.T:
+        [1, 4, 7
+         2, 5, 8
+         3, 6, 8]
+'''
+def transposition(data):
+    data = np.array(data)
+    return list(data.T)

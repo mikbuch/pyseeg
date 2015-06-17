@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 from modules.read_csv import read
 import modules.filterlib as flt
+import modules.spectrogram as sg
 
 ############################################
 #                                          #
@@ -28,7 +29,9 @@ lowstop = 49.0
 highstop = 51.0
 
 # file with eeg data location
-eeg_file = 'data/201506111703.csv'
+# eeg_file = 'data/201506111703.csv'
+eeg_file = 'data/201506111744.csv'
+# eeg_file = 'data/dane.txt'
 
 # seconds analysed
 sec_beg = 15
@@ -81,7 +84,7 @@ flted_1_50_pass = flt.butter_bandpass_filter(
 flted = flted_1_50_pass
 # get from the filtered data range (in seconds)
 flted_rng = flted[rng[0]:rng[1]]
-
+3
 # fourier transform, abs
 freq = abs(2 * np.fft.fft(flted_rng))/sec_rng*fs
 # cut spectrum half
@@ -125,4 +128,15 @@ plt.plot(x_time_rng, flted_rng)
 # frequency domain of the signal (power spectrum) in range
 plt.subplot(2, 3, 6)
 plt.plot(x_freq, freq)
+plt.show()
+
+
+sg.spectrogram(flted, int(fs))
+
+rtf = flt.FltRealTime()
+flted_rt = []
+for i in data:
+    flted_rt.append(rtf.filterIIR(i,0))
+
+plt.plot(flted_rt)
 plt.show()
