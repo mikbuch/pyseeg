@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from modules.read_csv import read
 import modules.filterlib as flt
 import modules.spectrogram as sg
+import modules.blink as blk
 
 ############################################
 #                                          #
@@ -105,38 +106,102 @@ x_freq_all = [i/float(5) for i in range(len(freq_all))]
 #             PLOTTING DATA                #
 #                                          #
 ############################################
-# raw signal time domain plot
-plt.subplot(2, 3, 1)
-plt.plot(x_time, data)
+# # raw signal time domain plot
+# plt.subplot(2, 3, 1)
+# plt.plot(x_time, data)
 
-# filtered signal time domain plot
-plt.subplot(2, 3, 2)
-plt.plot(x_time, flted)
+# # filtered signal time domain plot
+# plt.subplot(2, 3, 2)
+# plt.plot(x_time, flted)
 
-# frequency domain of the signal (power spectrum) plot
-plt.subplot(2, 3, 3)
-plt.plot(x_freq_all, freq_all)
+# # frequency domain of the signal (power spectrum) plot
+# plt.subplot(2, 3, 3)
+# plt.plot(x_freq_all, freq_all)
 
-# raw signal time domain in range
-plt.subplot(2, 3, 4)
-plt.plot(x_time_rng, data_rng)
+# # raw signal time domain in range
+# plt.subplot(2, 3, 4)
+# plt.plot(x_time_rng, data_rng)
 
-# filtered time domain in range
-plt.subplot(2, 3, 5)
-plt.plot(x_time_rng, flted_rng)
+# # filtered time domain in range
+# plt.subplot(2, 3, 5)
+# plt.plot(x_time_rng, flted_rng)
 
-# frequency domain of the signal (power spectrum) in range
-plt.subplot(2, 3, 6)
-plt.plot(x_freq, freq)
-plt.show()
+# # frequency domain of the signal (power spectrum) in range
+# plt.subplot(2, 3, 6)
+# plt.plot(x_freq, freq)
+# plt.show()
 
 
-sg.spectrogram(flted, int(fs))
+# ############################################
+# #                                          #
+# #              SPECTROGRAM                 #
+# #                                          #
+# ############################################
+# sg.spectrogram(flted, int(fs))
 
-rtf = flt.FltRealTime()
-flted_rt = []
+
+# ############################################
+# #                                          #
+# #          REAL TIME FILTERING             #
+# #                                          #
+# ############################################
+# frt = flt.FltRealTime()
+# flted_rt = []
+# for i in data:
+    # flted_rt.append(frt.filterIIR(i,0))
+
+# plt.plot(flted_rt)
+# plt.show()
+
+
+# ############################################
+# #                                          #
+# #            BLINK DETECTION               #
+# #                                          #
+# ############################################
+# '''
+# offline
+# '''
+# blinks_vis, blinks_num= blk.blink_offline(flted, 50, ommit=fs)
+
+# font = {'family': 'sans-serif',
+        # 'weight': 'bold',
+        # 'size': 20}
+# plt.rc('font', **font)
+
+# plt.plot(x_time, flted)
+# plt.plot(x_time, blinks_vis, '-r', linewidth=2.0)
+# plt.figtext(.75, .8, 'number of blinks: ' + str(blinks_num))
+# plt.show()
+
+# '''
+# online
+# '''
+# detector = blk.BlinkRealTime()
+
+# for i in flted_1_50_pass:
+    # detector.blink_detect(i, 50)
+
+# plt.plot(flted_1_50_pass)
+# plt.plot(detector.visual, '-r')
+# plt.show()
+
+
+############################################
+#                                          #
+#   ONLINE FILTERING + BLINK DETECTION     #
+#                                          #
+############################################
+
+frt = flt.FltRealTime()
+brt = blk.BlinkRealTime()
+signal_rt = []
 for i in data:
-    flted_rt.append(rtf.filterIIR(i,0))
+    sample = frt.filterIIR(i,0)
+    brt.blink_detect(sample, 50)
+    signal_rt.append(sample)
 
-plt.plot(flted_rt)
+plt.plot(data, '-g')
+plt.plot(signal_rt, '-b')
+plt.plot(brt.visual, '-r', linewidth=3.0)
 plt.show()

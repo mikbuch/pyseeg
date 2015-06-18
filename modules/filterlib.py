@@ -1,6 +1,13 @@
 from scipy.signal import butter, lfilter
 import numpy as np
 
+'''
+    Filtering library.
+    It consists of two types of filtering:
+        * offline - butter_band*_filter() functions
+        * online - FltRealTime() class
+'''
+
 
 ############################################
 #                                          #
