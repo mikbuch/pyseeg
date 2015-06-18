@@ -2,7 +2,7 @@ Python Simple EEG
 ==============
 
 ## Description
-EEG python library for basic eeg analysis and plotting
+EEG python library for basic eeg analysis and plotting.
 
 ## Features
 * Offline: filtering, blink detection, plotting, fourier transformation, spectrogram.
