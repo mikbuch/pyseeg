@@ -62,6 +62,12 @@ def butter_bandstop_filter(data, lowstop, highstop, fs, order=2):
 '''
     Class for real time filtering.
     The filter type can be changed by changing flt_type variable.
+    
+    Example use (can be found also in examples directory):
+
+    # go to the main directory of the repo
+    import 
+    raw_data = 
 '''
 
 
