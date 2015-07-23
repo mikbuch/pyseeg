@@ -1,0 +1,6 @@
+Example data description:
+
+128.csv - 128 electrodes eeg sample data
+alpha_waves_00.csv - subject with eyes closed (Oz electrode)
+blink_00.csv - spontaneous as well as intentional blinking (Fpz)
+flt_no_flt.txt - first column filtered signal, second not filtered
