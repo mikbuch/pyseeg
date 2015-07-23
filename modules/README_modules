@@ -1,0 +1,22 @@
+############################################
+#                                          #
+#              README_modules              #
+#                                          #
+############################################
+
+
+################################
+#                              #
+#      MODULES AVAILABLE:      #
+#                              #
+################################
+
+########################
+#      plotlib.py      #
+########################
+#
+Module for handling plotting.
+Real-time (online) plotiing uses matplotlib's blit functionality.
+# # #
+
+
