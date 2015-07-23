@@ -31,7 +31,7 @@ lowstop = 49.0
 highstop = 51.0
 
 # file with eeg data location
-eeg_file = 'data/blink_00.csv'
+eeg_file = 'data/201507091531.csv'
 
 # seconds analysed
 sec_beg = 15
