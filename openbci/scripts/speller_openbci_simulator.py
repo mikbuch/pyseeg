@@ -13,17 +13,56 @@ import modules.filterlib as flt
 import modules.blink as blk
 # import modules.plotlib as pltmod
 import modules.spellerlib as spell
+from modules.read_csv import read
+import modules.plotlib as pltmod
 
+
+############################################
+#                                          #
+#  OPENBCI-LIKE CLASS FOR HANDLING SAMPLE  #
+#                                          #
+############################################
+class OpenBCISample(object):
+    '''
+        Class for samples handling. Normally in openbci.py class.
+        Here it is used to make code similar to those from openbci.
+    '''
+    def __init__(self, packet_id, channel_data, aux_data):
+        self.id = packet_id
+        self.channel_data = channel_data
+        self.aux_data = aux_data
+
+
+############################################
+#                                          #
+#          GET DATA FROM FILE              #
+#                                          #
+############################################
+'''
+    If it were real-time the data would come directly from eeg.
+    For the simulation purpose it has to be read from the file.
+'''
+# specify file with eeg data
+# eeg_file = '../../data/blink_00.csv'
+eeg_file = '../../data/201507091442.csv'
+
+# read the eeg file to the list
+data_read = read(
+    eeg_file, delimiter=',', header=1, to_float=True, transpose=False
+    )
+
+'''
 output_dir = '../../data/'
 
 # code the time to name file or variable
 csv_filename = output_dir + \
     datetime.datetime.now().strftime("%Y%m%d%H%M") + \
     '.csv'
+'''
 
 
 def func_blink_det(blink_det):
-    def plotData(sample):
+    def countBlinks(sample):
 
         # get sample form the first channel (index '0')
         smp = sample.channel_data[0]
@@ -39,39 +78,48 @@ def func_blink_det(blink_det):
             print(brt.blinks_num)
             blink_det.put(brt.blinks_num)
 
-        # # online plotting using matplotlib blit
+        # online plotting using matplotlib blit
         # prt.frame_plot(smp_flted)
 
+        '''
         with open(csv_filename, 'at') as f:
             save = csv.writer(f)
             save.writerow([smp, smp_flted, brt.blinks_num])
             # save.writerow([sample.id] + sample.channel_data)
+        '''
 
-    if __name__ == '__main__':
+    # filtering in real time object creation
+    frt = flt.FltRealTime()
 
-        # filtering in real time object creation
-        frt = flt.FltRealTime()
+    # blink detection in real time object creation
+    brt = blk.BlinkRealTime()
 
-        # blink detection in real time object creation
-        brt = blk.BlinkRealTime()
+    # plotting in real time object creation
+    # prt = pltmod.OnlinePlot(samples_per_frame=2)
 
-        # plotting in real time object creation
-        # prt = pltmod.OnlinePlot(samples_per_frame=2)
+    '''
+    port = '/dev/ttyUSB1'
+    baud = 115200
+    board = bci.OpenBCIBoard(port=port, baud=baud)
+    board.start_streaming(plotData)
+    '''
 
-        port = '/dev/ttyUSB1'
-        baud = 115200
-        board = bci.OpenBCIBoard(port=port, baud=baud)
-        board.start_streaming(plotData)
-
+    for channel_sample in data_read:
+        # create sample using openbci-like class
+        sample = OpenBCISample(0, channel_sample, [0, 0, 0])
+        # filtering the data sample, detecting all blinks and ploting it
+        countBlinks(sample)
+        time.sleep(0.004)
 
 blink_det = mp.Queue()
 
 proc_blink_det = mp.Process(
     name='proc_',
     target=func_blink_det,
-    args=(blink_det)
+    args=(blink_det,)
     )
 
+print('proc started')
 proc_blink_det.start()
 
 
