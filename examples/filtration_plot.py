@@ -45,7 +45,7 @@ filtered_data = filter_eeg(data, fs)
 #                                          #
 ############################################
 
-plt.subplot(2 ,1, 1)
+plt.subplot(2, 1, 1)
 plt.plot(data, '-r')
 plt.title('before filtration')
 
