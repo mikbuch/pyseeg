@@ -42,8 +42,8 @@ def read(
         delimiter=',',
         header=None,
         mode='rb',
-        to_float=False,
-        transpose=False,
+        to_float=True,
+        transpose=True,
         quotechar='|'
         ):
 

@@ -52,6 +52,10 @@ def butter_bandstop_filter(data, lowstop, highstop, fs, order=2):
     y = lfilter(b, a, data)
     return y
 
+def filter_eeg(data, fs, lowstop=49, highstop=51, lowpass=1, highpass=50):
+    data = butter_bandstop_filter(data, lowstop, highstop, fs)
+    data = butter_bandpass_filter(data, lowpass, highpass, fs)
+    return data
 
 ############################################
 #                                          #

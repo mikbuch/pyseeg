@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 from pylab import *
 
-
-def spectrogram(data, Fs, colormap=cm.Accent, ylim=50):
+def spectrogram(data, Fs, colormap=cm.Accent, show_plot=True, ylim=50):
     Pxx, freqs, bins, im = specgram(data, NFFT=Fs, Fs=Fs, noverlap=Fs-1,
                                     cmap=cm.jet)
 
     plt.ylim(0, ylim)
     plt.xlim(0, len(data)/Fs)
-    show()
+
+    if show_plot:
+        show()
 
 # available color maps
 # http://matplotlib.org/examples/color/colormaps_reference.html
