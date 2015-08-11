@@ -89,7 +89,7 @@ class DataCursor(object):
             annotation.set_visible(True)
             event.canvas.draw()
 
-font = {'family' : 'normal',
+font = {'family' : 'sans-serif',
         'weight' : 'bold',
         'size'   : 22}
 
@@ -132,8 +132,6 @@ data = read(
 # choose the channel (in this example its 1st channel - 0)
 data = data[0]
 
-# required for futher plotting appropriate x axis (samples)
-x_time = [i/fs for i in range(len(data))]
 
 ############################################
 #                                          #
@@ -150,9 +148,15 @@ flted_1_50_pass = flt.butter_bandpass_filter(
     )
 
 flted = flted_1_50_pass[350:16800]
+
+
 ax1 = plt.subplot(2,1,1)
-ax1.set_xlim([0, len(flted)])
-a, = plt.plot(flted)
+ax1.set_xlim([0, len(flted)/fs])
+
+# required for futher plotting appropriate x axis (samples)
+x_time = [i/fs for i in range(len(flted))]
+
+a, = plt.plot(x_time, flted)
 DataCursor([a,])
 # plt.plot(flted)
 
