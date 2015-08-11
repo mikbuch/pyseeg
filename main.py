@@ -31,7 +31,7 @@ lowstop = 49.0
 highstop = 51.0
 
 # file with eeg data location
-eeg_file = 'data/201507091531.csv'
+eeg_file = 'data/alpha_waves_00.csv'
 
 # seconds analysed
 sec_beg = 15
@@ -78,16 +78,16 @@ flted_1_50_pass = flt.butter_bandpass_filter(
     flted_50_stop, lowcut, highcut, fs, order=2
     )
 
-############################################
-#                                          #
-#            FOURIER TRANSFORM             #
-#                                          #
-############################################
 # choose filtered data type
 flted = flted_1_50_pass
 # get from the filtered data range (in seconds)
 flted_rng = flted[rng[0]:rng[1]]
 
+############################################
+#                                          #
+#            FOURIER TRANSFORM             #
+#                                          #
+############################################
 # fourier transform, abs
 freq = abs(2 * np.fft.fft(flted_rng))/sec_rng*fs
 # cut spectrum half

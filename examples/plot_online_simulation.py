@@ -47,7 +47,7 @@ class OpenBCISample(object):
     For the simulation purpose it has to be read from the file.
 '''
 # specify file with eeg data
-eeg_file = '../data/201507091456.csv'
+eeg_file = '../data/201507091442.csv'
 # eeg_file = '../data/blink_00.csv'
 
 # read the eeg file to the list
