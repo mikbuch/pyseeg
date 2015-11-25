@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: PysEEG
+Version: 0.0.1
+Summary: PysEEG is tool for simple EEG analysis and BCI utility.
+Home-page: http://mikbuch.github.io/pyseeg
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: BSD
+Description: UNKNOWN
+Keywords: EEG BCI filtering plotting online realtime
+Platform: UNKNOWN
