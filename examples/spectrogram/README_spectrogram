@@ -1,0 +1,17 @@
+README_spectrogram
+
+###############################################################################
+spectrogram.py - the simplest spectrogram example possible
+fixed file location inside script ('../example_data/ssvep_00.csv')
+
+example usage:
+python spectrogram.py
+###############################################################################
+
+
+###############################################################################
+spectrogram_parse.py - spectrogram of the data from file specified as argument
+
+example usage:
+python spectrogram.py ../example_data/ssvep_00.csv
+###############################################################################
