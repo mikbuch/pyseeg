@@ -12,17 +12,39 @@
 import time
 from matplotlib import pyplot as plt
 
+from pyseeg.modules.csvlib import read_csv
+from pyseeg.modules.filterlib import filter_eeg
 
-"""
+
+def plot_time(
+        eeg_file, fs, channel,
+        bandstop=(49, 51), bandpass=(1, 50), order=4,
+        sec_remove=1, show=True
+        ):
+
+    data = read_csv(eeg_file, channel)
+
+    # filter data using bandstop (first), and then bandpass filter
+    filtered_data = filter_eeg(
+        data, fs, bandstop=bandstop, bandpass=bandpass,
+        order=order
+        )
+
+    filtered_data = filtered_data[fs*sec_remove:]
+
+    plt.title('signal time domain after filtration')
+    plt.plot(filtered_data)
+    if show:
+        plt.show()
+
+
+def simulate_plot(data):
+    """
     Display the simulation using matplotlib, using blit for speed
     Takes one argument:
         data_read - is the data read from file, the signal to be simulated
                     has to be 1D python list
-"""
-
-
-def simulate_plot(data):
-
+    """
     data_read = list(data)
 
     # get figure and axis objects
