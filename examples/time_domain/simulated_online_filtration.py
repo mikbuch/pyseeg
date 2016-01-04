@@ -5,18 +5,12 @@
     description:
         Simulate online filtering.
 '''
-
-# remove two following lines if you are in the main folder of the repo
-import sys
-sys.path.append('..')
-
-# import numpy as np
 import matplotlib.pyplot as plt
 
-from modules.read_csv import read
-import modules.filterlib as flt
-# import modules.spectrogram as sg
-import modules.blink as blk
+import pyseeg.modules.filterlib as flt
+import pyseeg.modules.blink as blk
+
+from pyseeg.modules.csvlib import read_csv
 
 ############################################
 #                                          #
@@ -25,7 +19,7 @@ import modules.blink as blk
 ############################################
 
 # file with eeg data location
-eeg_file = '../data/blink_00.csv'
+eeg_file = '../example_data/blink_00.csv'
 
 
 ############################################
@@ -37,10 +31,12 @@ eeg_file = '../data/blink_00.csv'
     If it were real-time the data would come directly from eeg.
     For the simulation purpose it has to be read from the file.
 '''
-# read the eeg file to the list
-data = read(
-    eeg_file, delimiter=',', header=1, to_float=True, transpose=True
-    )
+# get data form channel X
+channel = 0
+
+# read requested data form csv file
+data = read_csv(eeg_file, channel)
+
 
 # TODO: delete it later
 # ############################################
