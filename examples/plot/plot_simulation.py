@@ -9,12 +9,9 @@
         Uses already taken eeg data (stored in the file).
 '''
 
-# remove two following lines if you are in the main folder of the repo
-import sys
-sys.path.append('..')
 
-from modules.read_csv import read
-import modules.plotlib as pltmod
+from pyseeg.modules.csvlib import read_csv
+import pyseeg.modules.plotlib as pltmod
 
 ############################################
 #                                          #
@@ -26,14 +23,13 @@ import modules.plotlib as pltmod
     For the simulation purpose it has to be read from the file.
 '''
 # specify file with eeg data
-eeg_file = '../data/flt_no_flt.txt'
+eeg_file = '../example_data/blink_00.csv'
 
-# read the eeg file to the list
-data_read = read(
-    eeg_file, delimiter='\t', header=1, to_float=True, transpose=True
-    )
+# get data form channel X
+channel = 0
 
-data_read = data_read[1]
+# read requested data form csv file
+data = read_csv(eeg_file, channel)
 
 '''
     simulate_plot()
@@ -45,4 +41,4 @@ data_read = data_read[1]
 '''
 if __name__ == '__main__':
     # pltmod.simulate_plot(data_read)
-    pltmod.simulate_optimal(data_read, 2)
+    pltmod.simulate_optimal(data, samples_per_frame=2)
