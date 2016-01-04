@@ -6,19 +6,15 @@
 
     description:
         Offline simulator for preaquired data.
-        It behaves almost like online plotter with an EEG device running.
+        It behaves almost like an online plotter with an EEG device running.
 '''
-
-
-import sys
-sys.path.append('..')
 
 import time
 
-import modules.filterlib as flt
-import modules.blink as blk
-import modules.plotlib as pltmod
-from modules.read_csv import read
+from pyseeg.modules.csvlib import read_csv
+import pyseeg.modules.filterlib as flt
+import pyseeg.modules.blink as blk
+import pyseeg.modules.plotlib as pltmod
 
 
 ############################################
@@ -47,13 +43,10 @@ class OpenBCISample(object):
     For the simulation purpose it has to be read from the file.
 '''
 # specify file with eeg data
-eeg_file = '../data/201507091442.csv'
-# eeg_file = '../data/blink_00.csv'
+eeg_file = '../example_data/blink_00.csv'
 
-# read the eeg file to the list
-data_read = read(
-    eeg_file, delimiter=',', header=1, to_float=True, transpose=False
-    )
+# read requested data
+data = read_csv(eeg_file)
 
 
 ############################################
@@ -95,10 +88,10 @@ if __name__ == '__main__':
     brt = blk.BlinkRealTime()
 
     # plotting in real time object creation
-    prt = pltmod.OnlinePlot(samples_per_frame=1)
+    prt = pltmod.OnlinePlot(samples_per_frame=2)
 
     # iterate trough EEG data samples read form the file
-    for channel_sample in data_read:
+    for channel_sample in data:
         # create sample using openbci-like class
         sample = OpenBCISample(0, channel_sample, [0, 0, 0])
         # filtering the data sample, detecting all blinks and ploting it
