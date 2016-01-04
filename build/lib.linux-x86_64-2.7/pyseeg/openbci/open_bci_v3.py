@@ -74,12 +74,17 @@ class OpenBCIBoard(object):
     self.ser = serial.Serial(port, baud)
     print("Serial established...")
 
-    #Initialize 32-bit board, doesn't affect 8bit board
-    self.ser.write('v');
+    print('In Waiting')
+    print(self.ser.inWaiting())
+    self.ser.flushInput()
+    print(self.ser.inWaiting())
+
 
     #wait for device to be ready
-    time.sleep(1)
+    time.sleep(5)
+    self.ser.flushInput()
     # self.print_incoming_text()
+
 
     self.streaming = False
     self.filtering_data = filter_data
@@ -88,7 +93,6 @@ class OpenBCIBoard(object):
     self.aux_channels_per_sample = 3 # number of AUX channels per sample *from the board*
     self.read_state = 0
     self.daisy = daisy
-    self.last_odd_sample = OpenBCISample(-1, [], []) # used for daisy
     self.log = log
     self.log_packet_count = 0
 
