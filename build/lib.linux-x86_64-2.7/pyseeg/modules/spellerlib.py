@@ -12,7 +12,7 @@ class TablesGenerator(object):
         ['W', 'Y', 'Z', '_', '-']
         ]
 
-    def __init__(self, text_table=def_text_table):
+    def __init__(self, text_table=def_text_table, fullscr=False, pos=(0, 0)):
         self.text_table = text_table
 
         self.example_no_highlight = [
@@ -33,10 +33,16 @@ class TablesGenerator(object):
         self.cols_light = []
         self.rows_light = []
 
+        self.fullscr = fullscr
+        self.pos = pos
+
         # psychopy Window creation
         self.win_main = visual.Window(
-            [1000, 800], monitor='testMonitor',
-            winType='pyglet', units='pix', fullscr=False
+            [1000, 800],
+            fullscr=self.fullscr,
+            monitor='testMonitor',
+            pos=self.pos,
+            winType='pyglet', units='pix',
             )
         self.win_main.setMouseVisible(False)
 
@@ -136,6 +142,17 @@ class TablesGenerator(object):
         return self.rows_stim
 
     def cols_stim_generate(self):
+        for row in self.cols_generate():
+            self.cols_stim.append([])
+            for col in row:
+                self.cols_stim[-1].append(
+                    visual.TextStim(
+                        self.win_main, text=''.join(col),
+                        font='Monospace', height='40', wrapWidth=600
+                        )
+                    )
+
+    def no_highlight_generate(self):
         for row in self.cols_generate():
             self.cols_stim.append([])
             for col in row:

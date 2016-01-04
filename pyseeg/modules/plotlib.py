@@ -21,19 +21,26 @@ def plot_time(
         bandstop=(49, 51), bandpass=(1, 50), order=4,
         sec_remove=1, show=True
         ):
+    '''
+    sec_remove - filter settling time 
+    '''
 
-    data = read_csv(eeg_file, channel)
+    data = read_csv(eeg_file, channel=channel)
 
-    # filter data using bandstop (first), and then bandpass filter
-    filtered_data = filter_eeg(
-        data, fs, bandstop=bandstop, bandpass=bandpass,
-        order=order
-        )
+    if bandstop or bandpass:
+        # filter data using bandstop (first), and then bandpass filter
+        filtered_data = filter_eeg(
+            data, fs, bandstop=bandstop, bandpass=bandpass,
+            order=order
+            )
 
-    filtered_data = filtered_data[fs*sec_remove:]
+        filtered_data = filtered_data[fs*sec_remove:]
+        plt.title('signal time domain after filtration')
 
-    plt.title('signal time domain after filtration')
-    plt.plot(filtered_data)
+        plt.plot(filtered_data)
+    else:
+        plt.plot(data)
+
     if show:
         plt.show()
 
