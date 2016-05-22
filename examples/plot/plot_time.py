@@ -12,7 +12,7 @@ fs = 250
 channel = 0
 
 # plot time domain fo the signal
-plot_time('../example_data/blink_00.csv', fs, channel)
+plot_time('../example_data/NJ_201601121256.csv', fs, channel)
 
 # # full settings (as it is by default - see doc for the details):
 '''
