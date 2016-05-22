@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Filter eeg data and the plot time domain
 
-Name:
-    filtration_time.py
+'''
+name:
+filtration_time.py
 
-Example use:
-    python filtration_freq_parse.py ../data/blink_00.csv
-"""
+type:
+script
+
+example use:
+python filtration_freq_parse.py ../data/blink_00.csv
+
+desc:
+
+'''
 
 # remove two following lines if you are in the main folder of the repo
 import sys
@@ -64,7 +70,7 @@ filtered_data = filter_eeg(data, fs, bandstop=(49, 51), bandpass=(1, 50))
 
 # get signal for 2nd second - how many you have to cut depends on the order
 # of the digital filter you apply to the signal
-filtered_data = filtered_data[fs:]
+filtered_data = filtered_data[int(fs):]
 
 
 ############################################
