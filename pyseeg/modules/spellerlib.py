@@ -38,7 +38,7 @@ class TablesGenerator(object):
 
         # psychopy Window creation
         self.win_main = visual.Window(
-            [1000, 800],
+            [1400, 1200],
             fullscr=self.fullscr,
             monitor='testMonitor',
             pos=self.pos,
@@ -151,6 +151,7 @@ class TablesGenerator(object):
                         font='Monospace', height='40', wrapWidth=600
                         )
                     )
+        return self.cols_stim
 
     def no_highlight_generate(self):
         for row in self.cols_generate():
