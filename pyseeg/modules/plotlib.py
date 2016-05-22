@@ -11,6 +11,7 @@
 
 import time
 from matplotlib import pyplot as plt
+import numpy as np
 
 from pyseeg.modules.csvlib import read_csv
 from pyseeg.modules.filterlib import filter_eeg
@@ -19,11 +20,19 @@ from pyseeg.modules.filterlib import filter_eeg
 def plot_time(
         eeg_file, fs, channel,
         bandstop=(49, 51), bandpass=(1, 50), order=4,
-        sec_remove=1, show=True
+        sec_remove=None, show=True, xticklabels='samples',
+        title='Signal time domain after filtration',
+        sec_range=None, ylim=None, threshold=None, linewidth=1.0
         ):
     '''
-    sec_remove - filter settling time 
+    This function has dual purpose: plotting eeg signal or visualising
+    threshold detection line.
+
+    sec_remove - remove first n seconde (e.g. for filter settling time)
     '''
+
+    # in case someone passes float value (it has to be int for indexing)
+    fs = int(fs)
 
     data = read_csv(eeg_file, channel=channel)
 
@@ -34,13 +43,67 @@ def plot_time(
             order=order
             )
 
-        filtered_data = filtered_data[fs*sec_remove:]
-        plt.title('signal time domain after filtration')
+        if sec_remove:
+            filtered_data = filtered_data[int(fs*sec_remove):]
+        elif sec_range:
+            filtered_data = \
+                filtered_data[int(fs*sec_range[0]):int(fs*sec_range[1])]
 
-        plt.plot(filtered_data)
+        data_plotted = filtered_data
+
     else:
-        plt.plot(data)
+        data_plotted = data
 
+    if xticklabels == 'seconds':
+        xlabel = 'Time [s]'
+        if sec_range:
+            x_axis = np.arange(
+                0, len(data_plotted)/float(fs), 1/float(fs)
+                ) + sec_range[0]
+        else:
+            x_axis = np.arange(0, len(data_plotted)/float(fs), 1/float(fs))
+    else:
+        xlabel = 'Sample number'
+        x_axis = np.arange(0, len(data_plotted))
+
+    fig, ax = plt.subplots()
+
+    plt.plot(x_axis, data_plotted, linewidth=1.5, label='signal')
+
+    ax.xaxis.set_tick_params(width=2, length=5)
+    [i.set_linewidth(1.5) for i in ax.spines.itervalues()]
+
+    axis_font = {'fontname': 'FreeSans', 'size': '34'}
+    ax.set_xlabel(xlabel, labelpad=15, **axis_font)
+    ax.set_ylabel(r'microvolts [$\mu$V]', labelpad=20, **axis_font)
+
+
+    if threshold:
+        ax.text(
+            x_axis[0]-0.12, 45, r'50',
+            style='oblique', fontsize=30, color='red'
+            )
+        # draw threshold line
+        plt.plot(
+            (x_axis[0], x_axis[-1]),
+            (threshold, threshold),
+            'r-', linewidth=linewidth, label='threshold'
+            )
+        # change default title
+        plt.title('Threshold Blink Detection', y=1.02)
+
+    leg = plt.legend(bbox_to_anchor=(0.985, 0.14))
+    llines = leg.get_lines()
+    plt.setp(llines, linewidth=5)
+
+    # set y axis boundries
+    if ylim:
+        plt.ylim(ylim)
+
+
+    plt.rcParams.update({'font.size': 32})
+
+    # show result
     if show:
         plt.show()
 
@@ -189,6 +252,8 @@ class OnlinePlot(object):
             self.data_plotted)[0]
         self.tic = time.time()
 
+        # self.ax.draw(self.signal)
+
     def frame_plot(self, sample):
         self.count_frames += 1
 
@@ -201,10 +266,11 @@ class OnlinePlot(object):
                 range(len(self.data_plotted)), self.data_plotted
                 )
 
-            # restore background
-            self.fig.canvas.restore_region(self.background)
+            # # restore background
+            # self.fig.canvas.restore_region(self.background)
 
             # redraw just the points
+            self.fig.canvas.draw()
             self.ax.draw_artist(self.signal)
 
             # fill in the axes rectangle
