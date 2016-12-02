@@ -53,9 +53,6 @@ filtered_data = filter_eeg(data, fs, bandstop=(49, 51), bandpass=(1, 50))
 # of the digital filter you apply to the signal
 filtered_data = filtered_data[int(fs):]
 
-import pdb
-pdb.set_trace()
-
 ############################################
 #                                          #
 #              SPECTROGRAM                 #
