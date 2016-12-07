@@ -12,6 +12,7 @@ as trigger.
 import csv
 import datetime
 import time
+from os.path import join
 
 import multiprocessing as mp
 from psychopy import visual, event, core
@@ -36,11 +37,8 @@ subject_code = 'simulator_test'
 # text_target = 'YELLOW_ZEBRA'
 text_target = 'ORANGE_JUICE'
 
-log_filename = \
-    log_dir + \
-    subject_code + '_' + \
-    datetime.datetime.now().strftime("%Y%m%d%H%M") + \
-    '.csv'
+timecode = datetime.datetime.now().strftime("%Y%m%d%H%M")
+log_filename = join(log_dir, subject_code + '_' + timecode + '.csv')
 
 ############################################
 #                                          #
@@ -53,11 +51,15 @@ quit_program = mp.Event()
 # time elapsed until row/column switches
 exposition_time = 0.5
 
+# Color of the text to display (foreground) and the background.
+fg_color='white'
+bg_color='black'
+
 # store typed text in string variable
 text_typed = ''
 
 # object generating table with the letters
-generator = spell.TablesGenerator(pos=(500, 0))
+generator = spell.TablesGenerator(pos=(500, 0), bg_color=bg_color, fg_color=fg_color)
 
 # generate rows tables
 rows = generator.rows_generate()
@@ -72,7 +74,8 @@ cols_stim = generator.cols_stim_generate()
 # stim for typed text display
 text_target_stim = visual.TextStim(
     generator.win_main, text='Text target:\n' + text_target,
-    font='Monospace', pos=(0, 325), height='40', wrapWidth=600
+    font='Monospace', pos=(0, 325), height=40, wrapWidth=600,
+    color=fg_color
     )
 
 # set time point before main loop of the program
@@ -85,7 +88,8 @@ while not quit_program.is_set():
     # stim for typed text display
     text_typed_stim = visual.TextStim(
         generator.win_main, text='Text typed:\n' + text_typed,
-        font='Monospace', pos=(0, -300), height='40', wrapWidth=600
+        font='Monospace', pos=(0, -300), height=40, wrapWidth=600,
+        color=fg_color
         )
     # get the time to furter reference as time of the last decision
     last_time = time.time()
