@@ -11,6 +11,7 @@
 
 import time
 from matplotlib import pyplot as plt
+from matplotlib import rc
 import numpy as np
 
 from pyseeg.modules.csvlib import read_csv
@@ -70,12 +71,9 @@ def plot_time(
 
     plt.plot(x_axis, data_plotted, linewidth=1.5, label='signal')
 
-    ax.xaxis.set_tick_params(width=2, length=5)
-    [i.set_linewidth(1.5) for i in ax.spines.itervalues()]
 
-    axis_font = {'fontname': 'FreeSans', 'size': '34'}
-    ax.set_xlabel(xlabel, labelpad=15, **axis_font)
-    ax.set_ylabel(r'microvolts [$\mu$V]', labelpad=20, **axis_font)
+    ax.set_xlabel(xlabel, labelpad=15)
+    ax.set_ylabel(r'microvolts [$\mu$V]', labelpad=20)
 
 
     if threshold:
@@ -155,7 +153,7 @@ def simulate_plot(data):
         fig.canvas.blit(ax.bbox)
 
     plt.close(fig)
-    print "average FPS: %.2f" % (len(data_plotted) / (time.time() - tic))
+    print("average FPS: %.2f" % (len(data_plotted) / (time.time() - tic)))
 
 
 def simulate_optimal(data, samples_per_frame):
@@ -209,7 +207,7 @@ def simulate_optimal(data, samples_per_frame):
                 break
 
     plt.close(fig)
-    print "average FPS: %.2f" % (len(data_plotted) / (time.time() - tic))
+    print("average FPS: %.2f" % (len(data_plotted) / (time.time() - tic)))
 
 
 '''
