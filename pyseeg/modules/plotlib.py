@@ -176,7 +176,7 @@ def simulate_optimal(data, samples_per_frame):
     data_plotted.append(data_read.pop(0))
 
     plt.show(False)
-    plt.draw()
+    fig.canvas.draw()
 
     background = fig.canvas.copy_from_bbox(ax.bbox)
 
