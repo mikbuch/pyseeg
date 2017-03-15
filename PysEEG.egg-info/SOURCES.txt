@@ -8,6 +8,7 @@ pyseeg/__init__.py
 pyseeg/main.py
 pyseeg/modules/__init__.py
 pyseeg/modules/blink.py
+pyseeg/modules/board_simple.py
 pyseeg/modules/csvlib.py
 pyseeg/modules/fft.py
 pyseeg/modules/filterlib.py
