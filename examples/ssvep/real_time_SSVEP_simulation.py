@@ -13,7 +13,7 @@ import time
 from pyseeg.modules.csvlib import read_csv
 import pyseeg.modules.filterlib as flt
 import pyseeg.modules.blink as blk
-import pyseeg.modules.plotlib as pltmod
+import pyseeg.modules.ssveplib as slt
 
 
 
@@ -82,7 +82,7 @@ def func_ssvep_det(ssvep_state):
         frt = flt.FltRealTime()
 
         # blink detection in real time object creation
-        srt = ssvep.SSVEPRealTime(window_kind='nooverlap', window_len=1000)
+        srt = slt.SSVEPRealTime(window_kind='nooverlap', window_len=1000)
 
         print('modules for OpenBCI real time set...')
 
