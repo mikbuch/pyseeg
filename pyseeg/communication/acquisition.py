@@ -2,8 +2,13 @@ import csv
 import datetime
 import multiprocessing as mp
 import pyseeg.openbci.open_bci_ganglion as bci
+import os
 
-def record_data(stimuli, output_path=None):
+import pyseeg.modules.filterlib as flt
+import pyseeg.modules.ssveplib as svp
+
+
+def record_data(stimuli, freqs=None, channel=0, output_path=None):
 
     # Define the process to run in background. It communicates with the parent
     # process via state and terminate variables.
@@ -14,6 +19,16 @@ def record_data(stimuli, output_path=None):
 
         # Callback function for OpenBCI class to handle samples.
         def handle_sample(sample):
+
+            if freqs is not None:
+                # Get data point (value) form the first channel (index '0').
+                smp = sample.channel_data[channel]
+
+                # Filter fist sample (place in list with the index '0').
+                smp_flted = frt.filterIIR(smp, 0)
+
+                # Detect ssvep state (stimulus is the subject looking at).
+                ssvep_state = srt.ssvep_detect(smp_flted)
 
             # Let the inreface know that the data is streaming.
             if board.streaming:
@@ -27,8 +42,19 @@ def record_data(stimuli, output_path=None):
 
             with open(output_path, 'at') as f:
                 save = csv.writer(f)
-                save.writerow([sample.id] + sample.channel_data +
+                if freqs is not None:
+                    save.writerow([sample.id, smp, smp_flted, ssvep_state])
+                else:
+                    save.writerow([sample.id] + sample.channel_data +
                                                                  [state.value])
+
+        if freqs is not None:
+            # Create an object for filtering in real-time.
+            frt = flt.FltRealTime()
+
+            # SSVEP detection in real-time.
+            srt = svp.SSVEPRealTime(fs=255.0, window_len=255,
+                                    freqs=freqs, window_kind='nooverlap')
 
         print(' * acquisition * Modules for OpenBCI real time set...')
 
