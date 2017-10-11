@@ -1,1 +1,1 @@
-from .stimuli import SSVEPStimuli
+from .stimuli import SimpleRectangle, TwoRectangles
