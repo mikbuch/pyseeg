@@ -12,7 +12,8 @@ class TablesGenerator(object):
         ['W', 'Y', 'Z', '_', '-']
         ]
 
-    def __init__(self, text_table=def_text_table, fullscr=False, pos=(0, 0)):
+    def __init__(self, text_table=def_text_table, fullscr=False,
+                 pos=(0, 0), bg_color='gray', fg_color='black'):
         self.text_table = text_table
 
         self.example_no_highlight = [
@@ -35,15 +36,12 @@ class TablesGenerator(object):
 
         self.fullscr = fullscr
         self.pos = pos
+        self.fg_color = fg_color
 
         # psychopy Window creation
-        self.win_main = visual.Window(
-            [1000, 800],
-            fullscr=self.fullscr,
-            monitor='testMonitor',
-            pos=self.pos,
-            winType='pyglet', units='pix',
-            )
+        self.win_main = visual.Window([1400, 1200], fullscr=self.fullscr,
+                                      monitor='testMonitor', pos=self.pos,
+                                      winType='pyglet', units='pix', color=bg_color)
         self.win_main.setMouseVisible(False)
 
         # psychopy TextStim creation
@@ -52,10 +50,8 @@ class TablesGenerator(object):
 
         for row in range(len(self.text_table)):
             self.no_highlight.append([])
-            for i in range(
-                    len(self.text_table[0]) +
-                    (len(self.text_table[0]) - 1) * 3 + 2 + 2
-                    ):
+            for i in range(len(self.text_table[0]) +
+                           (len(self.text_table[0]) - 1) * 3 + 2 + 2):
                 self.no_highlight[-1] += ' '
             self.no_highlight[-1] += '\n'
             self.no_highlight.append([])
@@ -67,10 +63,8 @@ class TablesGenerator(object):
                 else:
                     self.no_highlight[-1] += '  \n'
         self.no_highlight.append([])
-        for i in range(
-                len(self.text_table[0]) +
-                (len(self.text_table[0]) - 1) * 3 + 2 + 2
-                ):
+        for i in range(len(self.text_table[0]) +
+                       (len(self.text_table[0]) - 1) * 3 + 2 + 2):
             self.no_highlight[-1] += ' '
         self.no_highlight[-1] += '\n'
 
@@ -121,9 +115,7 @@ class TablesGenerator(object):
         for i in range(len(self.text_table)):
             self.cols_light.append([])
             for j in range(len(self.text_table[i])):
-                self.cols_light[-1].append(
-                    self.col_change(j, self.rows_light[i])
-                    )
+                self.cols_light[-1].append(self.col_change(j, self.rows_light[i]))
         return self.cols_light
 
     '''
@@ -131,35 +123,34 @@ class TablesGenerator(object):
         TextStim from tables generator
     '''
 
+    def _create_TextStim(self, win, text, font='Monospace',
+                         height=40, wrapWidth=600):
+
+        text_stim = visual.TextStim(win=win, text=''.join(text), font=font,
+                                    height=height, wrapWidth=wrapWidth,
+                                    color=self.fg_color)
+
+        return text_stim
+
+
     def rows_stim_generate(self):
         for row in self.rows_generate():
-            self.rows_stim.append(
-                visual.TextStim(
-                    self.win_main, text=''.join(row),
-                    font='Monospace', height='40', wrapWidth=600
-                    )
-                )
+            row_text = self._create_TextStim(self.win_main, row)
+            self.rows_stim.append(row_text)
         return self.rows_stim
 
     def cols_stim_generate(self):
         for row in self.cols_generate():
             self.cols_stim.append([])
             for col in row:
-                self.cols_stim[-1].append(
-                    visual.TextStim(
-                        self.win_main, text=''.join(col),
-                        font='Monospace', height='40', wrapWidth=600
-                        )
-                    )
+                col_text = self._create_TextStim(self.win_main, col)
+                self.cols_stim[-1].append(col_text)
+        return self.cols_stim
 
     def no_highlight_generate(self):
         for row in self.cols_generate():
             self.cols_stim.append([])
             for col in row:
-                self.cols_stim[-1].append(
-                    visual.TextStim(
-                        self.win_main, text=''.join(col),
-                        font='Monospace', height='40', wrapWidth=600
-                        )
-                    )
+                col_text = self._create_TextStim(self.win_main, col)
+                self.cols_stim[-1].append(col_text)
         return self.cols_stim

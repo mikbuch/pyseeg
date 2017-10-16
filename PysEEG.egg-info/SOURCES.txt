@@ -6,6 +6,8 @@ PysEEG.egg-info/requires.txt
 PysEEG.egg-info/top_level.txt
 pyseeg/__init__.py
 pyseeg/main.py
+pyseeg/communication/__init__.py
+pyseeg/communication/acquisition.py
 pyseeg/modules/__init__.py
 pyseeg/modules/blink.py
 pyseeg/modules/board_simple.py
@@ -17,5 +19,11 @@ pyseeg/modules/plotlib.py
 pyseeg/modules/read_csv.py
 pyseeg/modules/spectrogram.py
 pyseeg/modules/spellerlib.py
+pyseeg/modules/ssveplib.py
 pyseeg/openbci/__init__.py
+pyseeg/openbci/open_bci_ganglion.py
 pyseeg/openbci/open_bci_v3.py
+pyseeg/stimuli/__init__.py
+pyseeg/stimuli/stimuli.py
+pyseeg/visualization/__init__.py
+pyseeg/visualization/checkout_plot.py
