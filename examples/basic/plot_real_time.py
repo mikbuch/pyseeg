@@ -57,7 +57,8 @@ prt = pltmod.OnlinePlot(samples_per_frame=4)
 
 print('modules for OpenBCI real time set...')
 
-port = '/dev/ttyUSB0'
+# port = '/dev/ttyUSB0'
+port = '/dev/rfcomm1'
 baud = 115200
 board = bci.OpenBCIBoard(port=port, baud=baud)
 print('starting streaming...')

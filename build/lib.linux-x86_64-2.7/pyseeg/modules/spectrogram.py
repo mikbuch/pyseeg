@@ -9,8 +9,6 @@ def spectrogram(data, Fs, colormap=cm.Accent, show_plot=True, ylim=50):
     plt.xlim(0, len(data)/Fs)
 
     if show_plot:
-        import pdb
-        pdb.set_trace()
         show()
 
 
