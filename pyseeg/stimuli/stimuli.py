@@ -1,4 +1,3 @@
-import datetime
 import numpy as np
 import pygame
 import time
@@ -8,7 +7,7 @@ class SimpleRectangle(object):
 
     def __init__(self):
         self.state = None
-    
+
     def display_stimuli(self, size, pos, color, freq):
         self.window.blit(self.rectangle, pos)
         pygame.display.update()
@@ -21,7 +20,7 @@ class SimpleRectangle(object):
     def display_background(self, pos):
         self.window.blit(self.background, pos)
         pygame.display.update()
-    
+
     def start_display(self, state, streaming, terminate):
         self.state = state
 
@@ -77,20 +76,7 @@ class TwoRectangles(object):
 
         self.freqs = freqs
         self.timeout = timeout
-    
-    def display_stimuli(self, size, pos, color, freq):
-        self.window.blit(self.rectangle, pos)
-        pygame.display.update()
-        time.sleep(freq)
-        self.window.blit(self.background, pos)
-        pygame.display.update()
-        time.sleep(freq)
-        self.clock.tick(60)
 
-    def display_background(self, pos):
-        self.window.blit(self.background, pos)
-        pygame.display.update()
-    
     def start_display(self, state, streaming, terminate):
         self.state = state
 
@@ -117,14 +103,15 @@ class TwoRectangles(object):
         print(' & stimuli & Board connected ...')
 
         start_ticks = pygame.time.get_ticks()
-        second= 0
+        second = 0
         cnt = 0
         while second < self.timeout:
             second = (pygame.time.get_ticks() - start_ticks) / 1000.
 
-            sin_val_one = 0.5+0.5*np.sin(2 * np.pi * second * float(self.freqs[0]))
-            sin_val_two = 0.5+0.5*np.sin(2 * np.pi * second * float(self.freqs[1]))
-
+            sin_val_one = 0.5+0.5*np.sin(2 * np.pi * second *
+                                         float(self.freqs[0]))
+            sin_val_two = 0.5+0.5*np.sin(2 * np.pi * second *
+                                         float(self.freqs[1]))
 
             stim_one = pygame.Surface(size)
             stim_one.fill(red)

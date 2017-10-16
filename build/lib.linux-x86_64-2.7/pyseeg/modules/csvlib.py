@@ -8,7 +8,7 @@ Read csv file to get data from all channels or just one specified.
 import csv
 
 
-def read_csv(eeg_file, channel=None, delimiter=',', mode='rb', quotechar='|'):
+def read_csv(eeg_file, channel=None, delimiter=',', mode='r', quotechar='|'):
     data = []
     # read the eeg file to the list
     with open(eeg_file, mode=mode) as f:
