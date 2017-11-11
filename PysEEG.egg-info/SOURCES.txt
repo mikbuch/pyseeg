@@ -9,7 +9,7 @@ pyseeg/main.py
 pyseeg/communication/__init__.py
 pyseeg/communication/acquisition.py
 pyseeg/datasets/__init__.py
-pyseeg/datasets/datasets.py
+pyseeg/datasets/standard_data.py
 pyseeg/modules/__init__.py
 pyseeg/modules/blink.py
 pyseeg/modules/board_simple.py
@@ -25,6 +25,9 @@ pyseeg/modules/ssveplib.py
 pyseeg/openbci/__init__.py
 pyseeg/openbci/open_bci_ganglion.py
 pyseeg/openbci/open_bci_v3.py
+pyseeg/preprocessing/__init__.py
+pyseeg/preprocessing/filtration.py
+pyseeg/preprocessing/transformation.py
 pyseeg/stimuli/__init__.py
 pyseeg/stimuli/stimuli.py
 pyseeg/visualization/__init__.py
