@@ -1,1 +1,1 @@
-from .stimuli import SimpleRectangle, TwoRectangles
+from .stimuli import SimpleRectangle, TwoRectangles, P300

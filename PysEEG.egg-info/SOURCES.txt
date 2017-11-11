@@ -8,6 +8,8 @@ pyseeg/__init__.py
 pyseeg/main.py
 pyseeg/communication/__init__.py
 pyseeg/communication/acquisition.py
+pyseeg/datasets/__init__.py
+pyseeg/datasets/datasets.py
 pyseeg/modules/__init__.py
 pyseeg/modules/blink.py
 pyseeg/modules/board_simple.py

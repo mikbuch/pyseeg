@@ -82,7 +82,7 @@ def filter_eeg(data, fs, bandstop=None, bandpass=None, order=2):
 
 
 class FltRealTime(object):
-    def __init__(self, flt_type='1A'):
+    def __init__(self, flt_type='4A'):
         self.prev_x = np.zeros((8, 5))
         self.prev_y = np.zeros((8, 5))
         self.prev_x2 = np.zeros((8, 5))

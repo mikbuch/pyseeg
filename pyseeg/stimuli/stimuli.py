@@ -1,6 +1,7 @@
 import numpy as np
 import pygame
 import time
+from random import shuffle
 
 
 class SimpleRectangle(object):
@@ -80,7 +81,7 @@ class TwoRectangles(object):
     def start_display(self, state, streaming, terminate):
         self.state = state
 
-        win_size = (1024, 768)
+        win_size = (2024, 768)
 
         window = pygame.display.set_mode(win_size, 0, 32)
 
@@ -92,7 +93,7 @@ class TwoRectangles(object):
         green = (0, 0, 255)
 
         pos_one = (100, 100)
-        pos_two = (500, 100)
+        pos_two = (700, 100)
 
         pygame.init()
 
@@ -127,6 +128,82 @@ class TwoRectangles(object):
             pygame.display.update()
 
             cnt += 1
+
+        pygame.quit()
+        terminate.set()
+
+
+class P300(object):
+    def __init__(self):
+        self.state = None
+
+    def start_display(self, state, streaming, terminate):
+        self.state = state
+        self.state.value = 0
+        win_size = (1024, 768)
+
+        window = pygame.display.set_mode(win_size, 0, 32)
+
+        stim=['1','2','3','4']
+
+        stimOrder=[]
+        for i in range(30):
+            shuffle(stim)
+            stimOrder.extend(stim)
+
+        one = pygame.image.load('p300_img/one.png')
+        two = pygame.image.load('p300_img/two.png')
+        three = pygame.image.load('p300_img/three.png')
+        four = pygame.image.load('p300_img/four.png')
+        one_neg = pygame.image.load('p300_img/one_neg.png')
+        two_neg = pygame.image.load('p300_img/two_neg.png')
+        three_neg = pygame.image.load('p300_img/three_neg.png')
+        four_neg = pygame.image.load('p300_img/four_neg.png')
+
+        pygame.init()
+
+        # Begin stimuli display when the board is connected and it starts
+        # streaming the data.
+        print(' & stimuli & Waiting for the board to connect ...')
+        streaming.wait()
+        print(' & stimuli & Board connected ...')
+
+        window.blit(one,(200,150))
+        window.blit(two,(400,150))
+        window.blit(three,(600,150))
+        window.blit(four,(800,150))
+        pygame.display.update()
+
+        print(' & stimuli & Acquiring 2 first seconds ...')
+        time.sleep(2.)
+        print(' & stimuli & Interface displayed ...')
+        for i in stimOrder:
+            if i == '1':
+                window.blit(one_neg,(200,150))
+                self.state.value=1
+            elif i == '2':
+                window.blit(two_neg,(400,150))
+                self.state.value=2
+            elif i == '3':
+                window.blit(three_neg,(600,150))
+                self.state.value=3
+            elif i == '4':
+                window.blit(four_neg,(800,150))
+                self.state.value=4
+
+            pygame.display.update()
+            time.sleep(1/10.)
+            self.state.value = 0
+            window.blit(one,(200,150))
+            window.blit(two,(400,150))
+            window.blit(three,(600,150))
+            window.blit(four,(800,150))
+            pygame.display.update()
+            time.sleep(1/10.)
+
+        print(' & stimuli & Interface closed ...')
+        print(' & stimuli & Acquiring 2 last seconds ...')
+        time.sleep(2.)
 
         pygame.quit()
         terminate.set()

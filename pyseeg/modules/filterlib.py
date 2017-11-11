@@ -55,12 +55,15 @@ def butter_bandstop_filter(data, lowstop, highstop, fs, order=2):
 
 # double filter function: first stop, then pass
 def filter_eeg(data, fs, bandstop=None, bandpass=None, order=2):
+    import numpy as np
     if bandstop:
         lowstop, highstop = bandstop
         data = butter_bandstop_filter(data, lowstop, highstop, fs, order)
+        print('After bandstop: %s' % np.mean(data))
     if bandpass:
         lowpass, highpass = bandpass
         data = butter_bandpass_filter(data, lowpass, highpass, fs, order)
+        print('After bandpass: %s' % np.mean(data))
     return data
 
 ############################################
@@ -82,7 +85,7 @@ def filter_eeg(data, fs, bandstop=None, bandpass=None, order=2):
 
 
 class FltRealTime(object):
-    def __init__(self, flt_type='1A'):
+    def __init__(self, flt_type='4A'):
         self.prev_x = np.zeros((8, 5))
         self.prev_y = np.zeros((8, 5))
         self.prev_x2 = np.zeros((8, 5))
