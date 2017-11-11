@@ -57,7 +57,8 @@ class SSVEPRealTime(object):
 
             self.cnt = 0
 
-            print(mean_freqs)
+            print(mean_freqs),
             self.decision = np.argmax(mean_freqs)
+            print(self.decision)
 
         return self.decision

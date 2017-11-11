@@ -8,7 +8,7 @@ import pyseeg.modules.filterlib as flt
 import pyseeg.modules.ssveplib as svp
 
 
-def record_data(stimuli, freqs=None, channel=0, output_path=None):
+def record_data(stimuli, header=None, freqs=None, channel=0, output_path=None):
 
     # Define the process to run in background. It communicates with the parent
     # process via state and terminate variables.
@@ -53,8 +53,14 @@ def record_data(stimuli, freqs=None, channel=0, output_path=None):
             frt = flt.FltRealTime()
 
             # SSVEP detection in real-time.
-            srt = svp.SSVEPRealTime(fs=255.0, window_len=255,
-                                    freqs=freqs, window_kind='nooverlap')
+            srt = svp.SSVEPRealTime(fs=250, window_len=250,
+									freqs=freqs, window_kind='nooverlap')
+
+        print(' * acquisition * Output file preparation...')
+        if header is not None:
+			with open(output_path, 'w') as f:
+				save = csv.writer(f)
+				save.writerow(header)
 
         print(' * acquisition * Modules for OpenBCI real time set...')
 
