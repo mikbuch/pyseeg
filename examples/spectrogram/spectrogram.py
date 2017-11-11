@@ -31,7 +31,7 @@ fs = 250.0
 ############################################
 
 # location of the file with eeg data
-eeg_file = '../example_data/ssvep_00.csv'
+eeg_file = '/home/jesmasta/eeg_data/OpenBCI/ssvep_00.csv'
 
 # get data form channel X
 channel = 0
