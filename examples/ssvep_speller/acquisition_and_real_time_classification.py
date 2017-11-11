@@ -21,6 +21,7 @@ sti = TwoRectangles(freqs=freqs, timeout=8)
 record_data(sti, freqs=freqs, channel=0, output_path=output_path)
 # TODO: add aux channels to the output.
 
+############################################
 # 3. Optionally: plot the data.
 from pyseeg.visualization import plot_data
 plot_data(output_path)
