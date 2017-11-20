@@ -6,8 +6,14 @@ from random import shuffle
 
 class SimpleRectangle(object):
 
-    def __init__(self, freqs):
+    def __init__(self, freqs, win_size=(1000, 1000), position=(300, 300),
+                 stim_size=(400, 400), colors=((255, 255, 255), (0, 0, 0))):
         self.freqs = freqs
+        self.win_size = win_size
+        self.position = position
+        self.stim_size = stim_size
+        self.colors = colors
+
         self.state = None
 
     def display_stimuli(self, colors, size, pos, freq):
@@ -23,12 +29,8 @@ class SimpleRectangle(object):
     def start_display(self, state, streaming, terminate):
         self.state = state
 
-        self.window = pygame.display.set_mode((800, 800), 0, 32)
+        self.window = pygame.display.set_mode(self.win_size, 0, 32)
         self.clock = pygame.time.Clock()
-
-        position = (0, 0)
-        size = (300, 300)
-        colors = ((255, 255, 255), (0, 0, 0,))
 
         pygame.init()
 
@@ -45,12 +47,14 @@ class SimpleRectangle(object):
                 state.value = 0
             elif seconds < 10:
                 state.value = 1
-                self.display_stimuli(colors, size, position, self.freqs[0])
+                self.display_stimuli(self.colors, self.stim_size,
+                                     self.position, self.freqs[0])
             elif seconds < 15:
                 state.value = 0
             elif seconds < 20:
                 state.value = 2
-                self.display_stimuli(colors, size, position, self.freqs[1])
+                self.display_stimuli(self.colors, self.stim_size,
+                                     self.position, self.freqs[1])
             elif seconds < 25:
                 state.value = 0
             elif seconds > 60:
