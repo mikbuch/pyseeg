@@ -9,7 +9,9 @@ from pyseeg.stimuli import SimpleRectangle
 output_path = '/tmp/pyseeg_test_output.csv'
 
 # 1. Create stimuli object.
-sti = SimpleRectangle(freqs=(10, 15))
+sti = SimpleRectangle(freqs=(10, 15), win_size=(1000, 1000),
+                      position=(300, 300), stim_size=(400, 400),
+                      colors=((255, 255, 255), (0, 0, 0)))
 
 # 2. Record data with triggers (20 seconds or delete key press).
 record_data(sti, output_path=output_path)
