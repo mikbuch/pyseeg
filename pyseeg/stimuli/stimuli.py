@@ -57,7 +57,7 @@ class SimpleRectangle(object):
                                      self.position, self.freqs[1])
             elif seconds < 25:
                 state.value = 0
-            elif seconds > 60:
+            elif seconds > 30:
                 break
 
         pygame.quit()
