@@ -6,37 +6,29 @@ from random import shuffle
 
 class SimpleRectangle(object):
 
-    def __init__(self):
+    def __init__(self, freqs):
+        self.freqs = freqs
         self.state = None
 
-    def display_stimuli(self, size, pos, color, freq):
-        self.window.blit(self.rectangle, pos)
-        pygame.display.update()
-        time.sleep(freq)
-        self.window.blit(self.background, pos)
-        pygame.display.update()
-        time.sleep(freq)
-        self.clock.tick(60)
+    def display_stimuli(self, colors, size, pos, freq):
 
-    def display_background(self, pos):
-        self.window.blit(self.background, pos)
-        pygame.display.update()
+        pygame.draw.rect(self.window, colors[0], pos+size)
+        pygame.display.flip()
+        self.clock.tick(int(freq*2.))
+
+        pygame.draw.rect(self.window, colors[1], pos+size)
+        pygame.display.flip()
+        self.clock.tick(int(freq*2.))
 
     def start_display(self, state, streaming, terminate):
         self.state = state
 
         self.window = pygame.display.set_mode((800, 800), 0, 32)
+        self.clock = pygame.time.Clock()
 
         position = (0, 0)
         size = (300, 300)
-        black = (0, 0, 0)
-        grey = (229, 229, 229)
-
-        self.rectangle = pygame.Surface(size)
-        self.rectangle.fill(grey)
-        self.background = pygame.Surface(size)
-        self.background.fill(black)
-        self.clock = pygame.time.Clock()
+        colors = ((255, 255, 255), (0, 0, 0,))
 
         pygame.init()
 
@@ -53,17 +45,15 @@ class SimpleRectangle(object):
                 state.value = 0
             elif seconds < 10:
                 state.value = 1
-                self.display_stimuli(size, position, black, 1/10.)
+                self.display_stimuli(colors, size, position, self.freqs[0])
             elif seconds < 15:
                 state.value = 0
-                self.display_background(position)
             elif seconds < 20:
                 state.value = 2
-                self.display_stimuli(size, position, black, 1/14.)
+                self.display_stimuli(colors, size, position, self.freqs[1])
             elif seconds < 25:
                 state.value = 0
-                self.display_background(position)
-            elif seconds < 30:
+            elif seconds > 60:
                 break
 
         pygame.quit()
@@ -144,7 +134,7 @@ class P300(object):
 
         window = pygame.display.set_mode(win_size, 0, 32)
 
-        stim=['1','2','3','4']
+        stim = ['1', '2', '3', '4']
 
         stimOrder=[]
         for i in range(30):
