@@ -12,12 +12,13 @@ Transform to obtain frequency domain.
 """
 
 import numpy as np
+import scipy.signal as sig
 
 
 ############################################
 # Fourier's transformation
 #
-def fft_transform(data):
+def fft_transform(data, hamming=False):
     """Plot FFT-transformed data.
 
     Parameters
@@ -27,11 +28,16 @@ def fft_transform(data):
 
     """
 
-    # Fourier transform.
-    frequency = abs(2 * np.fft.fft(data))/len(data)
+    if hamming:
+        frequency = 2 * abs(np.fft.fft(sig.hamming(len(data))*data, 256))/256.0
 
-    # Cut spectrum half.
-    frequency = frequency[:len(frequency)/2]
+        # frequency = frequency[:len(frequency)/2]
+    else:
+        # Fourier transform.
+        frequency = 2 * abs(np.fft.fft(data))/len(data)
+
+        # Cut spectrum half.
+        # frequency = frequency[:len(frequency)/2]
 
     return frequency
 #

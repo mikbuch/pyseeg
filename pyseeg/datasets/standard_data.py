@@ -117,7 +117,7 @@ class Dataset(object):
         if filter_data and not isinstance(self.filtered, pd.DataFrame):
             self.filter()
 
-        tmp = self.data.apply(lambda x: pd.Series(fft_transform(x)))
+        tmp = self.data.apply(lambda x: pd.Series(fft_transform(x, hamming=False)))
         del self.data
         self.data = tmp
         del tmp
@@ -183,6 +183,7 @@ def plot_data(input_path, fs, channels, filters, custom_range,
             # Create X (frequency) axis.
             x_axis = [i/(len(ds.data)/(float(ds.fs)/2.))
                       for i in range(len(ds.data))]
+            # x_axis = np.linspace(0, 200, 256)
             plt.plot(x_axis, ds.data)
         plt.title(pdt)
         plt.tight_layout()

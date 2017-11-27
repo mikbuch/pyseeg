@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def _transform(data):
+def transform(data):
     """Plot FFT-transformed data.
 
     Parameters

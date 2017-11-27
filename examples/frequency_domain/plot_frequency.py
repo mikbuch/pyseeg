@@ -42,7 +42,8 @@ filters = ({'type': 'bandstop', 'low': 49, 'high': 51},
 
 # If custom range is int, cut the leading k seconds of the signal. If custom
 # range is list or tuple, take the range in seconds.
-custom_range = [15, 25]
+# custom_range = [15, 25]
+custom_range = 1
 
 
 ###############################################################################
@@ -61,8 +62,8 @@ ssvep = Dataset(input_path, fs, channels=channels, filters=filters,
 # ssvep.transform()
 
 # To plot the data and show the plot.
-ssvep.plot_transformed()
-plt.show()
+# ssvep.plot_transformed()
+# plt.show()
 
 # Alternatively use an one-liner:
 #

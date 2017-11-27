@@ -6,8 +6,11 @@ PysEEG.egg-info/requires.txt
 PysEEG.egg-info/top_level.txt
 pyseeg/__init__.py
 pyseeg/main.py
+pyseeg/classifier/__init__.py
+pyseeg/classifier/ssvep.py
 pyseeg/communication/__init__.py
 pyseeg/communication/acquisition.py
+pyseeg/communication/acquisition_simulation.py
 pyseeg/datasets/__init__.py
 pyseeg/datasets/standard_data.py
 pyseeg/modules/__init__.py
