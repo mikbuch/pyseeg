@@ -1,7 +1,9 @@
 import numpy as np
+import os
 import pygame
 import time
 from random import shuffle
+from pyseeg.utils import fetch_stimuli
 
 
 class SimpleRectangle(object):
@@ -128,31 +130,42 @@ class TwoRectangles(object):
 
 
 class P300(object):
-    def __init__(self):
+    def __init__(self, win_size=(1024, 768), user='root'):
+
+        self.win_size = win_size
+        self.user = user
         self.state = None
 
     def start_display(self, state, streaming, terminate):
         self.state = state
         self.state.value = 0
-        win_size = (1024, 768)
 
-        window = pygame.display.set_mode(win_size, 0, 32)
+        window = pygame.display.set_mode(self.win_size, 0, 32)
 
         stim = ['1', '2', '3', '4']
 
-        stimOrder=[]
+        stim_order = []
         for i in range(30):
             shuffle(stim)
-            stimOrder.extend(stim)
+            stim_order.extend(stim)
 
-        one = pygame.image.load('p300_img/one.png')
-        two = pygame.image.load('p300_img/two.png')
-        three = pygame.image.load('p300_img/three.png')
-        four = pygame.image.load('p300_img/four.png')
-        one_neg = pygame.image.load('p300_img/one_neg.png')
-        two_neg = pygame.image.load('p300_img/two_neg.png')
-        three_neg = pygame.image.load('p300_img/three_neg.png')
-        four_neg = pygame.image.load('p300_img/four_neg.png')
+        # Base directory for stimuli.
+        base_stim_dir = '/home/%s/eeg_data/stimuli/p300_img' % self.user
+        if not os.path.exists(base_stim_dir):
+            os.makedirs(base_stim_dir)
+
+        fetch_stimuli(setim_type='p300', target_dir=base_stim_dir)
+
+        one = pygame.image.load(os.path.join(base_stim_dir, 'one.png'))
+        two = pygame.image.load(os.path.join(base_stim_dir, 'two.png'))
+        three = pygame.image.load(os.path.join(base_stim_dir, 'three.png'))
+        four = pygame.image.load(os.path.join(base_stim_dir, 'four.png'))
+        one_neg = pygame.image.load(os.path.join(base_stim_dir, 'one_neg.png'))
+        two_neg = pygame.image.load(os.path.join(base_stim_dir, 'two_neg.png'))
+        three_neg = pygame.image.load(os.path.join(base_stim_dir,
+                                                   'three_neg.png'))
+        four_neg = pygame.image.load(os.path.join(base_stim_dir,
+                                                  'four_neg.png'))
 
         pygame.init()
 
@@ -162,36 +175,36 @@ class P300(object):
         streaming.wait()
         print(' & stimuli & Board connected ...')
 
-        window.blit(one,(200,150))
-        window.blit(two,(400,150))
-        window.blit(three,(600,150))
-        window.blit(four,(800,150))
+        window.blit(one, (200, 150))
+        window.blit(two, (400, 150))
+        window.blit(three, (600, 150))
+        window.blit(four, (800, 150))
         pygame.display.update()
 
         print(' & stimuli & Acquiring 2 first seconds ...')
         time.sleep(2.)
         print(' & stimuli & Interface displayed ...')
-        for i in stimOrder:
+        for i in stim_order:
             if i == '1':
-                window.blit(one_neg,(200,150))
-                self.state.value=1
+                window.blit(one_neg, (200, 150))
+                self.state.value = 1
             elif i == '2':
-                window.blit(two_neg,(400,150))
-                self.state.value=2
+                window.blit(two_neg, (400, 150))
+                self.state.value = 2
             elif i == '3':
-                window.blit(three_neg,(600,150))
-                self.state.value=3
+                window.blit(three_neg,  (600,  150))
+                self.state.value = 3
             elif i == '4':
-                window.blit(four_neg,(800,150))
-                self.state.value=4
+                window.blit(four_neg, (800, 150))
+                self.state.value = 4
 
             pygame.display.update()
             time.sleep(1/10.)
             self.state.value = 0
-            window.blit(one,(200,150))
-            window.blit(two,(400,150))
-            window.blit(three,(600,150))
-            window.blit(four,(800,150))
+            window.blit(one, (200, 150))
+            window.blit(two, (400, 150))
+            window.blit(three, (600, 150))
+            window.blit(four, (800, 150))
             pygame.display.update()
             time.sleep(1/10.)
 
