@@ -27,9 +27,10 @@ def fetch_stimuli(stim_type, target_dir):
     # Check if dir exists.
     final_dir = os.path.join(target_dir, '%s_img' % stim_type)
     if os.path.exists(final_dir):
-        print('Stimuli already present on this machine.')
+        print('Stimuli already present on this machine.\n')
 
     else:
+        print('Downloading and unzipping ...\n')
         # Download file.
         if stim_type == 'p300':
             url = 'http://mj19648.home.amu.edu.pl/p300_img.zip'
