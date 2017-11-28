@@ -151,10 +151,10 @@ class P300(object):
 
         # Base directory for stimuli.
         base_stim_dir = '/home/%s/eeg_data/stimuli/p300_img' % self.user
-        if not os.path.exists(base_stim_dir):
-            os.makedirs(base_stim_dir)
+        unzip_dir = '/home/%s/eeg_data/stimuli' % self.user
 
-        fetch_stimuli(setim_type='p300', target_dir=base_stim_dir)
+        fetch_stimuli(stim_type='p300', target_dir=unzip_dir)
+	time.sleep(2.0)
 
         one = pygame.image.load(os.path.join(base_stim_dir, 'one.png'))
         two = pygame.image.load(os.path.join(base_stim_dir, 'two.png'))
