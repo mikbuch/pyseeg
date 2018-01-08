@@ -9,7 +9,7 @@ from pyseeg.stimuli import WaitKeyPress
 output_path = '/tmp/pyseeg_test_output.csv'
 
 # 1. Create stimuli object.
-sti = WaitKeyPress()
+sti = WaitKeyPress(fullscr=False, duration_sec=10)
 
 # 2. Record data with triggers (20 seconds or delete key press).
 record_data(sti, output_path=output_path)
