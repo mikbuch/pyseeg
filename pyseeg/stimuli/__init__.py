@@ -1,1 +1,1 @@
-from .stimuli import SimpleRectangle, TwoRectangles, P300
+from .stimuli import SimpleRectangle, TwoRectangles, P300, WaitKeyPress
