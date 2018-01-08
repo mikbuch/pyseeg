@@ -8,14 +8,19 @@ from pyseeg.utils import fetch_stimuli
 
 class WaitKeyPress(object):
 
-    def __init__(self):
+    def __init__(self, fullscr=False, duration_sec=10):
         self.state = None
+        self.fullscr = fullscr
+        self.duration_sec = duration_sec
 
     def start_display(self, state, streaming, terminate):
         self.state = state
 
-        self.window = pygame.display.set_mode((800, 800),
-                                              pygame.FULLSCREEN, 32)
+        if self.fullscr:
+            flags = pygame.FULLSCREEN
+        else:
+            flags = 0
+        self.window = pygame.display.set_mode((800, 800), flags, 32)
         self.clock = pygame.time.Clock()
 
         pygame.init()
@@ -32,7 +37,7 @@ class WaitKeyPress(object):
 
         start_ticks = pygame.time.get_ticks()
         seconds = (pygame.time.get_ticks() - start_ticks) / 1000
-        while seconds < 10:
+        while seconds < self.duration_sec:
             seconds = (pygame.time.get_ticks() - start_ticks) / 1000
             if seconds > 0.3 :
                 self.window.fill((0, 0, 0))
