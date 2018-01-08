@@ -14,10 +14,12 @@ class WaitKeyPress(object):
     def start_display(self, state, streaming, terminate):
         self.state = state
 
-        self.window = pygame.display.set_mode((800, 800), 0, 32)
+        self.window = pygame.display.set_mode((800, 800),
+                                              pygame.FULLSCREEN, 32)
         self.clock = pygame.time.Clock()
 
         pygame.init()
+        pygame.mouse.set_visible(False)
 
         # Begin stimuli display when the board is connected and it starts
         # streaming the data.
@@ -25,10 +27,16 @@ class WaitKeyPress(object):
         streaming.wait()
         print(' & stimuli & Board connected ...')
 
+        self.window.fill((35, 85, 35))
+        pygame.display.update()
+
         start_ticks = pygame.time.get_ticks()
         seconds = (pygame.time.get_ticks() - start_ticks) / 1000
         while seconds < 10:
             seconds = (pygame.time.get_ticks() - start_ticks) / 1000
+            if seconds > 0.3 :
+                self.window.fill((0, 0, 0))
+                pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
