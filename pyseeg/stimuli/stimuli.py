@@ -6,6 +6,45 @@ from random import shuffle
 from pyseeg.utils import fetch_stimuli
 
 
+class WaitKeyPress(object):
+
+    def __init__(self):
+        self.state = None
+
+    def start_display(self, state, streaming, terminate):
+        self.state = state
+
+        self.window = pygame.display.set_mode((800, 800), 0, 32)
+        self.clock = pygame.time.Clock()
+
+        pygame.init()
+
+        # Begin stimuli display when the board is connected and it starts
+        # streaming the data.
+        print(' & stimuli & Waiting for the board to connect ...')
+        streaming.wait()
+        print(' & stimuli & Board connected ...')
+
+        start_ticks = pygame.time.get_ticks()
+        seconds = (pygame.time.get_ticks() - start_ticks) / 1000
+        while seconds < 10:
+            seconds = (pygame.time.get_ticks() - start_ticks) / 1000
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        print('space')
+                        state.value = 1
+                    elif event.key == pygame.K_DELETE:
+                        print('delete')
+                        state.value = 0
+                        break
+                else:
+                    state.value = 0
+
+        pygame.quit()
+        terminate.set()
+
+
 class SimpleRectangle(object):
 
     def __init__(self, freqs, win_size=(1000, 1000), position=(300, 300),
@@ -154,7 +193,7 @@ class P300(object):
         unzip_dir = '/home/%s/eeg_data/stimuli' % self.user
 
         fetch_stimuli(stim_type='p300', target_dir=unzip_dir)
-	time.sleep(2.0)
+        time.sleep(2.0)
 
         one = pygame.image.load(os.path.join(base_stim_dir, 'one.png'))
         two = pygame.image.load(os.path.join(base_stim_dir, 'two.png'))
