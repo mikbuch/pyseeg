@@ -2,8 +2,43 @@ import numpy as np
 import os
 import pygame
 import time
+import serial
 from random import shuffle
 from pyseeg.utils import fetch_stimuli
+
+class ArduinoStimuli(object):
+
+    def __init__(self):
+        self.state = None
+
+    def start_display(self, state, streaming, terminate):
+        self.state = state
+
+        stim_num = np.arange(1, 8).tolist()
+        stim_num *= 5
+        shuffle(stim_num)
+
+        ser = serial.Serial('/dev/ttyUSB0', 9600)
+        time.sleep(3)
+
+        # Begin stimuli display when the board is connected and it starts
+        # streaming the data.
+        print(' & stimuli & Waiting for the board to connect ...')
+        streaming.wait()
+        print(' & stimuli & Board connected ...')
+
+        for i in range(len(stim_num)):
+            state.value = stim_num[i]
+            ser.write(str(stim_num[i]).encode())
+            time.sleep(3)
+            state.value = 0
+            ser.write(str(0).encode())
+            time.sleep(3)
+
+        ser.write(str(0).encode())
+        ser.close()
+                    
+        terminate.set()
 
 
 class WaitKeyPress(object):
