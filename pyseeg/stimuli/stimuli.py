@@ -6,6 +6,7 @@ import serial
 from random import shuffle
 from pyseeg.utils import fetch_stimuli
 
+
 class ArduinoStimuli(object):
 
     def __init__(self):
@@ -37,7 +38,64 @@ class ArduinoStimuli(object):
 
         ser.write(str(0).encode())
         ser.close()
-                    
+
+        terminate.set()
+
+
+class SwichingDigits(object):
+
+    def __init__(self, highlight_dur=1.5, num_passes=5, fullscr=False):
+        self.highlight_dur = highlight_dur
+        self.num_passes = num_passes
+        self.fullscr = fullscr
+
+    def display_digits(self):
+        self.window.fill((128, 128, 128))
+        self.font = pygame.font.SysFont('Arial', 80)
+        self.window.blit(self.font.render('1', True, (0, 0, 0)), (100, 300))
+        self.window.blit(self.font.render('2', True, (0, 0, 0)), (200, 300))
+        self.window.blit(self.font.render('3', True, (0, 0, 0)), (300, 300))
+        self.window.blit(self.font.render('4', True, (0, 0, 0)), (400, 300))
+        self.window.blit(self.font.render('5', True, (0, 0, 0)), (500, 300))
+        pygame.display.update()
+
+    def highlight_digit(self, num):
+        positions = (75, 175, 275, 375, 475)
+        self.rect = pygame.draw.rect(self.window, ((255, 0, 0)),
+                                     (positions[num], 300, 100, 100), 2)
+        pygame.display.update()
+
+    def start_display(self, state, streaming, terminate):
+        self.state = state
+
+        if self.fullscr:
+            flags = pygame.FULLSCREEN
+        else:
+            flags = 0
+        self.window = pygame.display.set_mode((800, 800), flags, 32)
+
+        pygame.init()
+        pygame.mouse.set_visible(False)
+
+        # Begin stimuli display when the board is connected and it starts
+        # streaming the data.
+        print(' & stimuli & Waiting for the board to connect ...')
+        streaming.wait()
+        print(' & stimuli & Board connected ...')
+
+        self.window.fill((128, 128, 128))
+        self.display_digits()
+        pygame.display.update()
+
+        for n in range(self.num_passes):
+            for i in range(5):
+                print(i+1)
+                state.value = i+1
+                self.highlight_digit(i)
+                time.sleep(self.highlight_dur)
+                self.display_digits()
+
+        pygame.quit()
         terminate.set()
 
 
@@ -74,7 +132,7 @@ class WaitKeyPress(object):
         seconds = (pygame.time.get_ticks() - start_ticks) / 1000
         while seconds < self.duration_sec:
             seconds = (pygame.time.get_ticks() - start_ticks) / 1000
-            if seconds > 0.3 :
+            if seconds > 0.3:
                 self.window.fill((0, 0, 0))
                 pygame.display.update()
             for event in pygame.event.get():
