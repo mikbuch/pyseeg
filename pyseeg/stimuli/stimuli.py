@@ -42,7 +42,7 @@ class ArduinoStimuli(object):
         terminate.set()
 
 
-class SwichingDigits(object):
+class SwitchingDigits(object):
 
     def __init__(self, highlight_dur=1.5, num_passes=5, fullscr=False):
         self.highlight_dur = highlight_dur
