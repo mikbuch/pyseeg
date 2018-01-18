@@ -3,14 +3,14 @@ The following example was tested with OpenBCI Ganglion board.
 '''
 
 from pyseeg.communication import record_data
-from pyseeg.stimuli import SwichingDigit
+from pyseeg.stimuli import SwitchingDigits
 
 # 0. Define output path (default is in your home directory).
 output_path = '/tmp/pyseeg_test_output.csv'
 
 # 1. Create stimuli object.
 
-sti = SwichingDigits(highlight_dur=1.5, num_passes=5, fullscr=False)
+sti = SwitchingDigits(highlight_dur=1.5, num_passes=5, fullscr=False)
 
 # 2. Record data with triggers (20 seconds or delete key press).
 record_data(sti, output_path=output_path)
