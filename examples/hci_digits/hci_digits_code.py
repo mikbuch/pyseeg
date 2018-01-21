@@ -9,11 +9,10 @@ from pyseeg.stimuli import SwitchingDigits
 output_path = '/tmp/pyseeg_test_output.csv'
 
 # 1. Create stimuli object.
-
 sti = SwitchingDigits(highlight_dur=1.5, num_passes=5, fullscr=False)
 
 # 2. Record data with triggers (20 seconds or delete key press).
-record_data(sti, output_path=output_path)
+record_data(sti, output_path=output_path, port=None)
 #TODO: add aux channels to the output.
 
 # 3. Optionally: plot the data.

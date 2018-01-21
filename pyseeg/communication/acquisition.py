@@ -8,7 +8,8 @@ import pyseeg.modules.filterlib as flt
 import pyseeg.modules.ssveplib as svp
 
 
-def record_data(stimuli, header=None, freqs=None, channel=0, output_path=None):
+def record_data(stimuli, header=None, freqs=None, channel=0, output_path=None,
+                port=None):
 
     # Define the process to run in background. It communicates with the parent
     # process via state and terminate variables.
@@ -64,7 +65,7 @@ def record_data(stimuli, header=None, freqs=None, channel=0, output_path=None):
 
         print(' * acquisition * Modules for OpenBCI real time set...')
 
-        board = bci.OpenBCIBoard()
+        board = bci.OpenBCIBoard(port=port)
         print(' * acquisition * Starting streaming...')
         board.start_streaming(handle_sample)
         board.disconnect()
