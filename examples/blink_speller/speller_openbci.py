@@ -31,9 +31,6 @@ import pyseeg.modules.spellerlib as spell
 # MAIN CHANNEL (OpenBCI board)
 channel = 0
 
-output_dir = '../example_data/'
-log_dir = '../logs/'
-
 subject_code = 'XXYY'
 
 # 0 for training, 1 for testing
@@ -49,16 +46,14 @@ window_position = (-50, -50)
 
 # code the time to name file or variable
 csv_filename = \
-    output_dir + \
     subject_code + '_' + \
     datetime.datetime.now().strftime("%Y%m%d%H%M") + \
-    '.csv'
+    '_data_output.csv'
 
 log_filename = \
-    log_dir + \
     subject_code + '_' + \
     datetime.datetime.now().strftime("%Y%m%d%H%M") + \
-    '.csv'
+    '_log_output.csv'
 
 
 ###############################################################################
@@ -181,10 +176,10 @@ rows_stim = generator.rows_stim_generate()
 cols_stim = generator.cols_stim_generate()
 
 # stim for typed text display
-text_target_stim = visual.TextStim(
-    generator.win_main, text='Text target:\n' + text_target,
-    font='Monospace', pos=(0, 325), height='40', wrapWidth=600
-    )
+text_target_stim = visual.TextStim(generator.win_main,
+                                   text='Text target:\n' + text_target,
+                                   font='Monospace', pos=(0, 325), height=40,
+                                   wrapWidth=600)
 
 # set time point before main loop of the program
 time_begin = time.time()
@@ -193,10 +188,10 @@ time_begin = time.time()
 while not quit_program.is_set():
 
     # stim for typed text display
-    text_typed_stim = visual.TextStim(
-        generator.win_main, text='Text typed:\n' + text_typed,
-        font='Monospace', pos=(0, -300), height='40', wrapWidth=600
-        )
+    text_typed_stim = visual.TextStim(generator.win_main,
+                                      text='Text typed:\n' + text_typed,
+                                      font='Monospace', pos=(0, -300),
+                                      height=40, wrapWidth=600)
 
     # get the time to furter reference as time of the last decision
     last_time = time.time()

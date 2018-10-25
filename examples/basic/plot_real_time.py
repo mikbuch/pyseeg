@@ -1,6 +1,6 @@
 '''
 name:
-acquire_and_print.py
+plt_real_time.py
 
 type:
 script
@@ -8,17 +8,9 @@ script
 Speller application used in the study described in article.
 '''
 
-import csv
 import pyseeg.openbci.open_bci_v3 as bci
-import datetime
-import time
-
-import multiprocessing as mp
-from psychopy import visual, event, core
 
 import pyseeg.modules.filterlib as flt
-import pyseeg.modules.blink as blk
-import pyseeg.modules.spellerlib as spell
 import pyseeg.modules.plotlib as pltmod
 
 
@@ -49,6 +41,7 @@ def plotData(sample):
     # online plotting using matplotlib blit
     prt.frame_plot(smp_flted)
 
+
 # filtering in real time object creation
 frt = flt.FltRealTime()
 
@@ -58,7 +51,7 @@ prt = pltmod.OnlinePlot(samples_per_frame=4)
 print('modules for OpenBCI real time set...')
 
 # port = '/dev/ttyUSB0'
-port = '/dev/rfcomm1'
+port = '/dev/ttyUSB0'
 baud = 115200
 board = bci.OpenBCIBoard(port=port, baud=baud)
 print('starting streaming...')

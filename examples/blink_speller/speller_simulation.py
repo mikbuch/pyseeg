@@ -30,15 +30,12 @@ import pyseeg.modules.spellerlib as spell
 # MAIN CHANNEL
 channel = 0
 
-output_dir = '../example_data/'
-log_dir = '../logs/'
-
 subject_code = 'simulator_test'
 # text_target = 'YELLOW_ZEBRA'
 text_target = 'ORANGE_JUICE'
 
 timecode = datetime.datetime.now().strftime("%Y%m%d%H%M")
-log_filename = join(log_dir, subject_code + '_' + timecode + '.csv')
+log_filename = join(subject_code + '_' + timecode + '_output.csv')
 
 ############################################
 #                                          #
